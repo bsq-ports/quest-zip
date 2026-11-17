@@ -16,3 +16,8 @@ extern/
 
 extern.cmake
 qpm_defines.cmake
+
+# QPM2 local outputs
+qpm.settings.json
+toolchain.json
+*.qpkg

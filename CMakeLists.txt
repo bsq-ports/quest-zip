@@ -1,5 +1,5 @@
-# include some defines automatically made by qpm
-include(qpm_defines.cmake)
+# Read package and Android toolchain settings.
+include(cmake/quest.cmake)
 
 cmake_minimum_required(VERSION 3.22)
 project(${COMPILE_ID})
@@ -22,8 +22,8 @@ add_compile_options(-frtti -fPIE -fPIC -fexceptions)
 add_compile_definitions(MOD_ID=\"${MOD_ID}\")
 
 # recursively get all src files
-RECURSE_FILES(cpp_file_list ${SOURCE_DIR}/*.cpp)
-RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
+file(GLOB_RECURSE cpp_file_list ${SOURCE_DIR}/*.cpp)
+file(GLOB_RECURSE c_file_list ${SOURCE_DIR}/*.c)
 
 # add all src files to compile
 add_library(
@@ -44,8 +44,6 @@ target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGE
 target_include_directories(${COMPILE_ID} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/submodules/css-color-parser-cpp/")
 
 target_link_libraries(${COMPILE_ID} PRIVATE -llog -lz)
-# add extern stuff like libs and other includes
-include(extern.cmake)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
             COMMAND ${CMAKE_STRIP} -g -S -d --strip-all

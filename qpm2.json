@@ -1,0 +1,27 @@
+{
+  "configVersion": "2.0.0",
+  "id": "zip",
+  "version": "1.7.4",
+  "additionalData": {
+    "url": "https://github.com/bsq-ports/quest-zip"
+  },
+  "workspace": {
+    "ndk": "^29.0.0",
+    "outBinaries": [
+      "build/libzip.so"
+    ],
+    "toolchainOut": "toolchain.json",
+    "cmake": false,
+    "scripts": {
+      "build": [
+        "pwsh ./build.ps1",
+        "cmake -E make_directory extern/build/build",
+        "cmake -E copy_if_different build/libzip.so extern/build/build/libzip.so"
+      ]
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "dependenciesDirectory": "extern",
+  "sharedDirectory": "shared"
+}

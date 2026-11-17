@@ -18,6 +18,7 @@ if (($clean.IsPresent) -or (-not (Test-Path -Path "build")))
 }
 
 & cmake -G "Ninja" -DCMAKE_BUILD_TYPE="RelWithDebInfo" . -B build 
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & cmake --build ./build
 
 exit $LastExitCode

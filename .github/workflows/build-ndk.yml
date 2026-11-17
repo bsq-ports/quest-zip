@@ -9,7 +9,8 @@ on:
       - '**.yml'
       - '!.github/workflows/build-ndk.yml'
       - '**.json'
-      - '!qpm.json'
+      - '!qpm2.json'
+      - '!qpm2.shared.json'
       - '!mod.template.json'
       - '**.txt'
       - '!CMakeLists.txt'
@@ -21,57 +22,21 @@ on:
   pull_request:
     branches: main
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v2
-      name: Checkout
-      with:
-        submodules: true
-        lfs: true
-
-    - uses: seanmiddleditch/gha-setup-ninja@v3
-
-    - name: Create ndkpath.txt
-      run: |
-        echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
-        cat ${GITHUB_WORKSPACE}/ndkpath.txt
-
-    - name: Get QPM
-      if: steps.cache-qpm.outputs.cache-hit != 'true'
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        workflow: cargo-build.yml
-        name: linux-qpm-rust
-        path: QPM
-        repo: RedBrumbler/QuestPackageManager-Rust
-        
-    - name: QPM Collapse
-      run: |
-        chmod +x ./QPM/qpm-rust
-        ./QPM/qpm-rust collapse
-    
-    - name: QPM Dependencies Cache
-      id: cache-qpm-deps
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-qpm-deps
-      with:
-        path: /home/runner/.local/share/QPM-Rust/cache
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('qpm.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-
-    - name: QPM Restore
-      run: |
-        ./QPM/qpm-rust restore
-      
-    - name: Build
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        pwsh -Command ./build.ps1
+      - uses: actions/checkout@v4
+      - uses: seanmiddleditch/gha-setup-ninja@v3
+      - uses: Fernthedev/qpm-action@v2
+      - name: Build and package
+        run: qpm2 qpkg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zip
+          path: |
+            zip.qpkg
+            build/libzip.so
+            build/debug/libzip.so
+          if-no-files-found: error

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/QuestPackageManager/QPM.Package/refs/heads/main/qpm.shared.schema.json",
+  "config": {
+    "configVersion": "2.0.0",
+    "id": "zip",
+    "version": "1.7.4",
+    "additionalData": {
+      "description": "",
+      "author": "",
+      "license": "",
+      "url": "https://github.com/bsq-ports/quest-zip"
+    },
+    "workspace": {
+      "scripts": {
+        "build": [
+          "pwsh ./build.ps1",
+          "cmake -E make_directory extern/build/build",
+          "cmake -E copy_if_different build/libzip.so extern/build/build/libzip.so"
+        ]
+      },
+      "ndk": "^29.0.0",
+      "outBinaries": [
+        "build/libzip.so"
+      ],
+      "toolchainOut": "toolchain.json",
+      "cmake": false
+    },
+    "dependencies": {},
+    "devDependencies": {},
+    "dependenciesDirectory": "extern",
+    "sharedDirectory": "shared"
+  },
+  "restoredDependencies": {},
+  "env": {}
+}
