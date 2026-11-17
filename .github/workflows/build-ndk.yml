@@ -19,6 +19,8 @@ jobs:
       - uses: Fernthedev/qpm-action@v2
       - name: Build and package
         run: qpm2 qpkg
+      - name: Verify packaged library
+        run: python3 -c "from pathlib import Path; from zipfile import ZipFile; assert ZipFile('zip.qpkg').read('bin/libzip.so') == Path('build/libzip.so').read_bytes()"
       - uses: actions/upload-artifact@v4
         with:
           name: zip

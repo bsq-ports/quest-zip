@@ -19,9 +19,7 @@
         ]
       },
       "ndk": "^29.0.0",
-      "outBinaries": [
-        "build/libzip.so"
-      ],
+      "outBinary": "build/libzip.so",
       "toolchainOut": "toolchain.json",
       "cmake": false
     },
