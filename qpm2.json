@@ -10,7 +10,6 @@
     "outBinaries": [
       "build/libzip.so"
     ],
-    "outBinary": "build/libzip.so",
     "toolchainOut": "toolchain.json",
     "cmake": false,
     "scripts": {
@@ -24,5 +23,8 @@
   "dependencies": {},
   "devDependencies": {},
   "dependenciesDirectory": "extern",
-  "sharedDirectory": "shared"
+  "sharedDirectory": "shared",
+  "compileOptions": {
+    "includePaths": [""]
+  }
 }

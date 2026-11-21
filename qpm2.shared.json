@@ -19,14 +19,21 @@
         ]
       },
       "ndk": "^29.0.0",
-      "outBinary": "build/libzip.so",
+      "outBinaries": [
+        "build/libzip.so"
+      ],
       "toolchainOut": "toolchain.json",
       "cmake": false
     },
     "dependencies": {},
     "devDependencies": {},
     "dependenciesDirectory": "extern",
-    "sharedDirectory": "shared"
+    "sharedDirectory": "shared",
+    "compileOptions": {
+      "includePaths": [
+        ""
+      ]
+    }
   },
   "restoredDependencies": {},
   "env": {}
